@@ -1,0 +1,55 @@
+﻿<div class="container" ng-app="app" ng-controller="dashboardController">
+    <div class="form-horizontal">
+        <div class="col-md-6">
+
+               <button ng-click="getServerTime()">Get time from server</button>
+                <br /><h1>One Time Info</h1>
+                <br />System Name : {{vm.systemName}}
+                <br />Total Memory : {{vm.totalMemory}}
+                <hr />
+                <br />Connected Client : {{vm.clientConnected}}
+                <br />CPU Usage : {{vm.cpuUsaged}}
+                <br />Available Memory Usage : {{vm.memoryUsaged}}
+                <br />Total Process : {{vm.process.item2}}
+                <hr />
+                CPU History (graph)
+                Memory History (graph)
+           
+            <hr />
+
+            <div class="form-group">
+                <div class="col-md-8">
+                    <input type="hidden" id="serverTime" value="{{vm.serverTime}}" />
+                    <div id="Watchdiv"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-8">
+                    
+                    <input type="hidden" id="cpuUsage" value="{{vm.cpuUsage}}" />
+                    <div id="CPUdiv"></div>
+                </div>
+            </div>
+
+            <br />
+            <table class="table table-condensed" ng-if="vm.process.item1.length>0">
+                <thead>
+                    <tr>
+                        <th>Process ID</th>
+                        <th>Name</th>
+                        <th>Memory Size</th>
+                        <th>Virtual Memory</th>
+                    </tr>
+                </thead>
+                <tbody ng-repeat="process in vm.process.item1">
+                    <tr>
+                        <td>{{process.id}}</td>
+                        <td>{{process.name}}</td>
+                        <td>{{process.memorySize}}</td>
+                        <td>{{process.virtualMemory}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

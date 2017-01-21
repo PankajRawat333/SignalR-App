@@ -15,8 +15,6 @@ namespace ServerMonitoringApp.Hubs
     [HubName("Dashboard")]
     public class DashboardHub : Hub
     {
-        //TODO: need to lazy initialize
-
         private static List<string> _clients = new List<string>();
         private static string _machineName = string.Empty;
         private static float _totalMemory = 0;
@@ -70,15 +68,26 @@ namespace ServerMonitoringApp.Hubs
                         Memory = GetMemoryUsage()
                     };
                     this.Clients.All.onHitRecorded(JsonConvert.SerializeObject(systemInfo));
-                    Thread.Sleep(2000);
+                    Thread.Sleep(1000);
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
+            finally
+            {
+                DisposePerformanceCounter();
+            }
         }
 
+        public void DisposePerformanceCounter()
+        {
+            _cpuUsage.Dispose();
+            _ram.Dispose();
+            _ramUsage.Dispose();
+
+        }
         private float GetCpuUsage()
         {
             return Convert.ToInt32(_cpuUsage.NextValue());
